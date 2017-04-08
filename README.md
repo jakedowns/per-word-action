@@ -5,6 +5,11 @@ Takes a per-word callback function as an argument.
 
 **Demo:** https://jakedowns.github.io/per-word-action/
 
+## available on npm
+`npm install per-word-action`
+
+[per-word-action on npm](https://www.npmjs.com/package/per-word-action)
+
 ## usage
 See index.html for an example.
 

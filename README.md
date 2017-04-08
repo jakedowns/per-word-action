@@ -29,8 +29,8 @@ make sure to call this first:
 `$('#my-element-selector').attr('data-pwa','');`
 
 ## related
-- ellipsizer
-- pull-quote-center
+- [ellipsizer](https://github.com/jakedowns/ellipsizer)
+- [pull-quote-center](https://github.com/jakedowns/pull-quote-center)
 
 ## credit
 props to Yoshi on stackoverflow: http://stackoverflow.com/a/12105430/1712225

@@ -23,6 +23,7 @@ $('#my-element-selector').perWordAction(function($word, line_number){
 Note:
 If your elements contents change and you need to re-wrap,
 make sure to call this first:
+
 `$('#my-element-selector').attr('data-pwa','');`
 
 ## related

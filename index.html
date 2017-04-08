@@ -1,26 +1,27 @@
 <html>
 <head>
-    <title>per word action demo</title>
-    <style>
-        html, body { background-color: #333; }
-        body { padding: 20px; }
-        p {
-            line-height: 25px;
-            font-size: 16px;
-        }
-    </style>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+    <title>per-word-action &amp; per-line-action demo</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="PerWordAction.js"></script>
     <script>
-        var colors = ['red','orange','yellow','green','skyblue','purple','violet'];
+        var colors = [
+            'rgba(255, 131, 96, 1)',
+            'rgba(232, 226, 136, 1)',
+            'rgba(125, 206, 130, 1)',
+            'rgba(60, 219, 211, 1)',
+            'rgba(0, 255, 245, 1)',
+        ];
 
         // our PWA binding & per-word-action callback method
         function doMagic(){
             var word_idx = 0;
+
+            // reset font size to prevent line-check breakage
+            $('#content .pwa-word').css('font-size','');
+
             $('#content').perWordAction(function($word, line_number){
                 //console.log($word.text(), line_number);
                 var color_idx = (line_number - 1);
@@ -29,12 +30,23 @@
                 }
                 //console.log(line_number, color_idx);
                 $word.css('color', colors[color_idx]);
+            });
 
-                var weight = word_idx % 2 === 0 ? 'bold' : 'normal';
-                var style = word_idx % 2 === 0 ? 'italic' : 'normal';
+            var prev_line_number = 0;
+            $('#content .pwa-word').each(function(){
+                var $word = $(this);
+                var line_number = parseInt($word.attr('pwa-line'));
+                // first word of every line
+                var firstWord = line_number !== prev_line_number;
+                var weight = firstWord ? 'bold' : 'normal';
+                var style = firstWord ? 'italic' : 'normal';
+                var size = firstWord ? 20 : '';
                 $word.css('font-weight', weight);
                 $word.css('font-style', style);
+                $word.css('font-size', size);
                 word_idx++;
+                prev_line_number = line_number;
+                $word = null;
             });
         }
 
@@ -43,23 +55,60 @@
             var doMagic_debounced = _.debounce(doMagic, 150);
             // add a resize binding
             $(window).resize(doMagic_debounced);
+            $('#content').resizable();
+            $('#content').on('resize', doMagic_debounced);
 
             // do the initial magic
             doMagic();
         });
     </script>
+    <style>
+        html, body {
+            background-color: #eee;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        body { padding: 20px; }
+        #content {
+            padding: 20px;
+            background: #333;
+            overflow: auto;
+        }
+        p {
+            line-height: 25px;
+            font-size: 16px;
+        }
+        a, a:active, a:visited, a:hover {
+            text-decoration: none;
+            border-bottom: 1px solid #044389;
+            color: #044389 !important;
+        }
+        a *, a span {
+            color: #044389 !important;
+        }
+        .ui-icon-gripsmall-diagonal-se {
+            border: 1px solid #fff;
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
+
+<h1>Responsive Demo of per-word & per-line magic</h1>
+<p>This is a low-level utility function which dynamically wraps each word
+    in a unique span, and assigns them a line-number data attribute.
+    <br>
+    <strong>Resize the div to see how it updates</strong>
+    <br>
+    It is used in at least two other packages:</p>
+<ul>
+    <li><a href="https://github.com/jakedowns/ellipsizer">Ellipsizer</a> - A JS method for ellipsizing elements which contain nested block-level elements (edge case not supported by text-overflow: ellipsis)</li>
+    <li><a href="https://github.com/jakedowns/pull-quote-center">Pull Quote Center</a> - A jQuery plugin utility which dynamically inserts a symmetrical pull-quote element clone to enable a hacky float: center between two columns of text</li>
+</ul>
+
+<hr>
+
 <div id="content">
-    <h1>Responsive Demo of per-word & per-line magic</h1>
-    <h2>Resize your browser to see it update!</h2>
-    <p>This is a low-level utility function which dynamically wraps each word
-        in a unique span, and assigns them a line-number data attribute.
-        It is used in at least two other packages:</p>
-    <ul>
-        <li><a href="https://github.com/jakedowns/ellipsizer">Ellipsizer</a> - A JS method for ellipsizing elements which contain nested block-level elements (edge case not supported by text-overflow: ellipsis)</li>
-        <li><a href="https://github.com/jakedowns/pull-quote-center">Pull Quote Center</a> - A jQuery plugin utility which dynamically inserts a symmetrical pull-quote element clone to enable a hacky float: center between two columns of text</li>
-    </ul>
     <p>Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere
         blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
         posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,

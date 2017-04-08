@@ -3,6 +3,8 @@ A jQuery plugin utility which idempotently wraps every word within an element in
 a unique span and assigns each word a line-number data attribute.
 Takes a per-word callback function as an argument.
 
+**Demo:** https://jakedowns.github.io/per-word-action/
+
 ## usage
 See index.html for an example.
 

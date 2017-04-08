@@ -1,0 +1,17 @@
+{
+  "name": "per-word-action",
+  "version": "1.0.0",
+  "description": "A jQuery plugin utility which dynamically wraps every word within an element in a unique span, assigning each word a line-number data attribute. Takes a per-word callback function as an argument.",
+  "main": "PerWordAction.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jquery",
+    "per-word-action",
+    "line-number-counter",
+    "word-counter"
+  ],
+  "author": "Jake Downs",
+  "license": "ISC"
+}

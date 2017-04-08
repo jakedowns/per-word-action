@@ -1,0 +1,112 @@
+<html>
+<head>
+    <title>per word action demo</title>
+    <style>
+        html, body { background-color: #333; }
+        body { padding: 20px; }
+        p {
+            line-height: 25px;
+            font-size: 16px;
+        }
+    </style>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="/PerWordAction.js"></script>
+    <script>
+        var colors = ['red','orange','yellow','green','skyblue','purple','violet'];
+
+        // our PWA binding & per-word-action callback method
+        function doMagic(){
+            var word_idx = 0;
+            $('#content').perWordAction(function($word, line_number){
+                //console.log($word.text(), line_number);
+                var color_idx = (line_number - 1);
+                if(color_idx > colors.length - 1){
+                    color_idx = color_idx % (colors.length - 1);
+                }
+                //console.log(line_number, color_idx);
+                $word.css('color', colors[color_idx]);
+
+                var weight = word_idx % 2 === 0 ? 'bold' : 'normal';
+                var style = word_idx % 2 === 0 ? 'italic' : 'normal';
+                $word.css('font-weight', weight);
+                $word.css('font-style', style);
+                word_idx++;
+            });
+        }
+
+        // wait for DOM ready
+        $(document).ready(function(){
+            var doMagic_debounced = _.debounce(doMagic, 150);
+            // add a resize binding
+            $(window).resize(doMagic_debounced);
+
+            // do the initial magic
+            doMagic();
+        });
+    </script>
+</head>
+<body>
+<div id="content">
+    <h1>Responsive Demo of per-word & per-line magic</h1>
+    <h2>Resize your browser to see it update!</h2>
+    <p>This is a low-level utility function which dynamically wraps each word
+        in a unique span, and assigns them a line-number data attribute.
+        It is used in at least two other packages:</p>
+    <ul>
+        <li>Ellipsizer - smart ellipsis for elements with block-level children</li>
+        <li>Pull Quote Center - a package for smartly enabling pull quotes in between two columns of text</li>
+    </ul>
+    <p>Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere
+        blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+        posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,
+        ullamcorper sit amet ligula. Sed porttitor lectus nibh. Mauris blandit
+        aliquet elit, eget tincidunt nibh pulvinar a. Sed porttitor lectus nibh.
+        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus
+        suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat, accumsan
+        id imperdiet et, porttitor at sem. Curabitur arcu erat, accumsan id
+        imperdiet et, porttitor at sem.</p>
+
+    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin
+        eget tortor risus. Quisque velit nisi, pretium ut lacinia in, elementum id
+        enim. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus
+        suscipit tortor eget felis porttitor volutpat. Pellentesque in ipsum id orci
+        porta dapibus. Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit
+        amet quam vehicula elementum sed sit amet dui. Cras ultricies ligula sed
+        magna dictum porta.</p>
+
+    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Mauris
+        blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus suscipit
+        tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
+        vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id
+        imperdiet et, porttitor at sem. Vivamus magna justo, lacinia eget
+        consectetur sed, convallis at tellus. Quisque velit nisi, pretium ut lacinia
+        in, elementum id enim. Nulla porttitor accumsan tincidunt. Nulla quis lorem
+        ut libero malesuada feugiat. Praesent sapien massa, convallis a pellentesque
+        nec, egestas non nisi.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultricies
+        ligula sed magna dictum porta. Donec sollicitudin molestie malesuada.
+        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+        Quisque velit nisi, pretium ut lacinia in, elementum id enim. Mauris blandit
+        aliquet elit, eget tincidunt nibh pulvinar a. Sed porttitor lectus nibh.
+        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Praesent sapien
+        massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum
+        primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec
+        velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
+
+    <p>Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor
+        risus. Sed porttitor lectus nibh. Vivamus magna justo, lacinia eget
+        consectetur sed, convallis at tellus. Curabitur non nulla sit amet nisl
+        tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus
+        convallis quis ac lectus. Quisque velit nisi, pretium ut lacinia in,
+        elementum id enim. Vivamus magna justo, lacinia eget consectetur sed,
+        convallis at tellus. Cras ultricies ligula sed magna dictum porta. Cras
+        ultricies ligula sed magna dictum porta.</p>
+</div>
+</body>
+</html>

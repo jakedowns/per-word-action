@@ -12,7 +12,7 @@
             'rgba(232, 226, 136, 1)',
             'rgba(125, 206, 130, 1)',
             'rgba(60, 219, 211, 1)',
-            'rgba(0, 255, 245, 1)',
+            'rgb(124, 77, 179)',
         ];
 
         // our PWA binding & per-word-action callback method
@@ -20,34 +20,35 @@
             var word_idx = 0;
 
             // reset font size to prevent line-check breakage
-            $('#content .pwa-word').css('font-size','');
+            $('#content .pwa-word').attr('style','');
 
             $('#content').perWordAction(function($word, line_number){
                 //console.log($word.text(), line_number);
                 var color_idx = (line_number - 1);
                 if(color_idx > colors.length - 1){
-                    color_idx = color_idx % (colors.length - 1);
+                    color_idx = color_idx % (colors.length);
                 }
                 //console.log(line_number, color_idx);
                 $word.css('color', colors[color_idx]);
             });
 
-            var prev_line_number = 0;
-            $('#content .pwa-word').each(function(){
-                var $word = $(this);
-                var line_number = parseInt($word.attr('pwa-line'));
-                // first word of every line
-                var firstWord = line_number !== prev_line_number;
-                var weight = firstWord ? 'bold' : 'normal';
-                var style = firstWord ? 'italic' : 'normal';
-                var size = firstWord ? 20 : '';
-                $word.css('font-weight', weight);
-                $word.css('font-style', style);
-                $word.css('font-size', size);
-                word_idx++;
-                prev_line_number = line_number;
-                $word = null;
-            });
+//            var max_line = parseInt($('#content .pwa-word').last().attr('pwa-line'));
+//            console.log('max_line', max_line);
+//            for(var i = 1; i<=max_line; i++){
+//                $('#content .pwa-word[pwa-line='+i+']').first().css({
+//                    'font-style': 'italic',
+////                    'text-decoration': 'underline',
+//                    'color': 'white'
+//                });
+//                var last_word = $('#content .pwa-word[pwa-line='+i+']').last();
+//                var color_was = last_word.css('color');
+//                last_word.css({
+//                    'font-style': 'italic',
+////                    'text-decoration': 'underline',
+//                    'color': '#000',
+//                    'background-color': color_was
+//                });
+//            }
         }
 
         // wait for DOM ready
